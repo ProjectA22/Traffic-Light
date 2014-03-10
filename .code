@@ -1,0 +1,33 @@
+#include <Maxbotix.h>
+#include <RxSoftwareSerial.h>
+
+int red_1 = 2;
+int yellow_1 = 3;
+int green_1 = 5;
+
+void setup()
+{
+  pinMode(2, OUTPUT);
+   pinMode(3, OUTPUT);
+    pinMode(5, OUTPUT);
+}
+
+void loop() 
+{
+  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
+  digitalWrite(red_1, LOW);
+  //start witha green light
+  digitalWrite(green_1, HIGH);
+  delay(5000); //wait 5 seconds
+  //change the light
+  digitalWrite(green_1, LOW);
+  digitalWrite(yellow_1, HIGH);
+  delay(2000);
+  digitalWrite(yellow_1, LOW);
+  digitalWrite(red_1, HIGH);
+  delay(5000);
+}
+else {
+   digitalWrite(green_1, HIGH);
+}
+}
