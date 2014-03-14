@@ -1,10 +1,7 @@
 #include <Maxbotix.h>
 #include <RxSoftwareSerial.h>
 
-#include <Maxbotix.h>
-#include <RxSoftwareSerial.h>
-
-Maxbotix rangeSensorPW(8, Maxbotix::PW, Maxbotix::LV);
+Maxbotix rangeSensorPW(7, Maxbotix::PW, Maxbotix::LV);
 Maxbotix rangeSensorTX(6, Maxbotix::TX, Maxbotix::LV);
 Maxbotix rangeSensorAD(A0, Maxbotix::AN, Maxbotix::LV);
 
@@ -22,13 +19,17 @@ void setup()
   pinMode(2, OUTPUT);
    pinMode(3, OUTPUT);
     pinMode(5, OUTPUT);
+    pinMode(10, OUTPUT);
+   pinMode(8, OUTPUT);
+    pinMode(11, OUTPUT);
 }
 
 void loop() 
 {
-  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
+  //if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
   digitalWrite(red_1, LOW);
   //start witha green light
+  digitalWrite(red_2, HIGH);
   digitalWrite(green_1, HIGH);
   delay(5000); //wait 5 seconds
   //change the light
@@ -37,62 +38,16 @@ void loop()
   delay(2000);
   digitalWrite(yellow_1, LOW);
   digitalWrite(red_1, HIGH);
-  delay(5000);
-}
-else {
-   digitalWrite(green_1, HIGH);
-}
-
-int red_1 = 2;
-int yellow_1 = 3;
-int green_1 = 5;
-
-void setup()
-{
-  pinMode(2, OUTPUT);
-   pinMode(3, OUTPUT);
-    pinMode(5, OUTPUT);
-}
-
-void loop() 
-{
-  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
-  digitalWrite(red_1, LOW);
-  //start witha green light
-  digitalWrite(green_1, HIGH);
-  delay(5000); //wait 5 seconds
-  //change the light
-  digitalWrite(green_1, LOW);
-  digitalWrite(yellow_1, HIGH);
+  
+  delay(1000);
+  digitalWrite(red_2, LOW);
+  digitalWrite(green_2, HIGH);
+  delay(4000); //
+  digitalWrite(green_2, LOW);
+  digitalWrite(yellow_2, HIGH);
   delay(2000);
-  digitalWrite(yellow_1, LOW);
-  digitalWrite(red_1, HIGH);
-  delay(5000);
-}
-else {
-   digitalWrite(green_1, HIGH);]
-   
-}#include <Maxbotix.h>
-#include <RxSoftwareSerial.h>
-
-}
-
-void loop() 
-{
-  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
-  digitalWrite(red_1, LOW);
-  //start witha green light
-  digitalWrite(green_1, HIGH);
-  delay(5000); //wait 5 seconds
-  //change the light
-  digitalWrite(green_1, LOW);
-  digitalWrite(yellow_1, HIGH);
-  delay(2000);
-  digitalWrite(yellow_1, LOW);
-  digitalWrite(red_1, HIGH);
-  delay(5000);
-}
-else {
-   digitalWrite(green_1, HIGH);
-}
+  digitalWrite(yellow_2, LOW);
+  digitalWrite(red_2, HIGH);
+  delay(1000);
+  
 }
