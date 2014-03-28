@@ -12,6 +12,10 @@ int yellow_1 = 5;
 int red_2 = 10;
 int yellow_2 = 8;
 int green_2 = 11;
+int pwPin = 7;
+int cm;
+int pulse;
+int inches;
 
 
 void setup()
@@ -22,11 +26,27 @@ void setup()
     pinMode(10, OUTPUT);
    pinMode(8, OUTPUT);
     pinMode(11, OUTPUT);
+   pinMode(7, INPUT);
+    pinMode(6, INPUT);
+    pinMode(A0, INPUT);
+    pinMode(pwPin, INPUT);
+    digitalWrite(10, HIGH);
+    digitalWrite(3, HIGH);
 }
 
-void loop() 
-{
-  //if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
+void loop() {
+  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
+  pinMode(pwPin, INPUT);
+  pulse = pulseIn(pwPin, HIGH);
+  inches = pulse/147;
+  cm = inches * 2.54;
+  Serial.print(inches);
+  Serial.print("in, ");
+  Serial.print(cm);
+  Serial.print("cm");
+  Serial.println();
+  delay(500);
+
   digitalWrite(red_1, LOW);
   //start witha green light
   digitalWrite(red_2, HIGH);
@@ -50,4 +70,8 @@ void loop()
   digitalWrite(red_2, HIGH);
   delay(1000);
   
+}
+else {
+  digitalWrite(green_1, HIGH);
+}
 }
