@@ -1,77 +1,57 @@
-#include <Maxbotix.h>
-#include <RxSoftwareSerial.h>
+int wg=3;
+int wy=5;
+int wr=2;
+int eg=11;
+int ey=8;
+int er=10;
+int pot = 0;
+int wb=4;
+int eb=7;
 
-Maxbotix rangeSensorPW(7, Maxbotix::PW, Maxbotix::LV);
-Maxbotix rangeSensorTX(6, Maxbotix::TX, Maxbotix::LV);
-Maxbotix rangeSensorAD(A0, Maxbotix::AN, Maxbotix::LV);
-
-
-int red_1 = 2;
-int green_1 = 3;
-int yellow_1 = 5;
-int red_2 = 10;
-int yellow_2 = 8;
-int green_2 = 11;
-int pwPin = 7;
-int cm;
-int pulse;
-int inches;
-
-
-void setup()
-{
-  pinMode(2, OUTPUT);
-   pinMode(3, OUTPUT);
-    pinMode(5, OUTPUT);
-    pinMode(10, OUTPUT);
-   pinMode(8, OUTPUT);
-    pinMode(11, OUTPUT);
-   pinMode(7, INPUT);
-    pinMode(6, INPUT);
-    pinMode(A0, INPUT);
-    pinMode(pwPin, INPUT);
-    digitalWrite(10, HIGH);
-    digitalWrite(3, HIGH);
+void setup() {
+  pinMode(wg,OUTPUT);
+  pinMode(wy,OUTPUT);
+  pinMode(wr,OUTPUT);
+  pinMode(eg,OUTPUT);
+  pinMode(ey,OUTPUT);
+  pinMode(er,OUTPUT);
+  digitalWrite(wg, HIGH);
+  digitalWrite(er, HIGH);
 }
 
 void loop() {
-  if (rangeSensorPW.getRange() < 5) {  //if there is something within 5 cm of the sensor
-  pinMode(pwPin, INPUT);
-  pulse = pulseIn(pwPin, HIGH);
-  inches = pulse/147;
-  cm = inches * 2.54;
-  Serial.print(inches);
-  Serial.print("in, ");
-  Serial.print(cm);
-  Serial.print("cm");
-  Serial.println();
-  delay(500);
-
-  digitalWrite(red_1, LOW);
-  //start witha green light
-  digitalWrite(red_2, HIGH);
-  digitalWrite(green_1, HIGH);
-  delay(5000); //wait 5 seconds
-  //change the light
-  digitalWrite(green_1, LOW);
-  digitalWrite(yellow_1, HIGH);
-  delay(2000);
-  digitalWrite(yellow_1, LOW);
-  digitalWrite(red_1, HIGH);
+  int analogValue = analogRead(pot);
+  if (analogValue < 400 && digitalRead(wg)==HIGH){
+    delay(1000);
+    digitalWrite(wy,HIGH); //switching green light to yellow
+    digitalWrite(wg,LOW);
+    delay(3000);
+    digitalWrite(wr,HIGH);  //switching yellow light to red
+    digitalWrite(wy,LOW);
+    delay(2000);
+    //add code for the left turn lane
+    digitalWrite(eb,HIGH);
+    delay(3000);
+    digitalWrite(wr,LOW); 
+    
+    digitalWrite(eg,HIGH);  //turning the opposite light green 
+    digitalWrite(eb,LOW); //er
+  }
   
-  delay(1000);
-  digitalWrite(red_2, LOW);
-  digitalWrite(green_2, HIGH);
-  delay(4000); //
-  digitalWrite(green_2, LOW);
-  digitalWrite(yellow_2, HIGH);
-  delay(2000);
-  digitalWrite(yellow_2, LOW);
-  digitalWrite(red_2, HIGH);
-  delay(1000);
+  if (analogValue > 400 && digitalRead(eg)==HIGH){
+    delay(1000);
+    digitalWrite(ey,HIGH);
+    digitalWrite(eg,LOW);
+    delay(3000);
+    digitalWrite(er,HIGH);
+    digitalWrite(ey,LOW);
+    delay(2000);
+    
+    digitalWrite(wb,HIGH);
+    delay(3000); 
+    digitalWrite(er,LOW);
+    digitalWrite(wg,HIGH);
+    digitalWrite(wb,LOW); //wr
+  }
   
-}
-else {
-  digitalWrite(green_1, HIGH);
-}
 }
